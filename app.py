@@ -2,16 +2,15 @@ from bs4 import BeautifulSoup
 import requests
 from pymongo import MongoClient
 from flask import Flask, render_template, request, jsonify
-# import xml.etree.ElementTree as elemTree
+import xml.etree.ElementTree as elemTree
 
 # xml 파일 파싱
-with open('keys.xml', 'r') as file: 
-    tree = BeautifulSoup(file, features="html.parser")
-    db_url = tree.find('string[@name="MongoDB_URL"]').text
+tree = elemTree.parse('keys.xml')
+mongodb_pass = tree.find('string[@name="MongoDB_PASSWORD"]').text
 
 app = Flask(__name__)
 
-client = MongoClient(f'{db_url}')
+client = MongoClient(f'mongodb+srv://swlah:{mongodb_pass}@cluster0.g93fmw7.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
 @app.route('/')

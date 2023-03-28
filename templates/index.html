@@ -12,81 +12,16 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 
-    <title>스파르타 피디아</title>
+    <title>어드민 페이지</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
-    <style>
-        * {
-            font-family: 'Gowun Dodum', sans-serif;
-        }
+    <!-- CSS 파일 import -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    
+    <!-- JS 파일 import -->
+    <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
 
-        .mytitle {
-            width: 100%;
-            height: 250px;
-
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://movie-phinf.pstatic.net/20210715_95/1626338192428gTnJl_JPEG/movie_image.jpg');
-            background-position: center;
-            background-size: cover;
-
-            color: white;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mytitle>button {
-            width: 200px;
-            height: 50px;
-
-            background-color: transparent;
-            color: white;
-
-            border-radius: 50px;
-            border: 1px solid white;
-
-            margin-top: 10px;
-        }
-
-        .mytitle>button:hover {
-            border: 2px solid white;
-        }
-
-        .mycomment {
-            color: gray;
-        }
-
-        .mycards {
-            margin: 20px auto 0px auto;
-            width: 95%;
-            max-width: 1200px;
-        }
-
-        .mypost {
-            width: 95%;
-            max-width: 500px;
-            margin: 20px auto 0px auto;
-            padding: 20px;
-            box-shadow: 0px 0px 3px 0px gray;
-
-            display: none;
-        }
-
-        .mybtns {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-
-            margin-top: 20px;
-        }
-
-        .mybtns>button {
-            margin-right: 10px;
-        }
-    </style>
     <script>
         $(document).ready(function () {
             listing();
@@ -144,20 +79,21 @@
 
 <body>
     <div class="mytitle">
-        <h1>내 생애 최고의 영화들</h1>
-        <button onclick="open_box()">영화 기록하기</button>
+        <h1>test</h1>
+        <button onclick="open_box()">기록하기</button>
     </div>
     <div class="mypost" id="post-box">
         <div class="form-floating mb-3">
             <input id="url" type="email" class="form-control" placeholder="name@example.com">
-            <label>영화URL</label>
+            <label>URL</label>
         </div>
         <div class="form-floating">
             <textarea id="comment" class="form-control" placeholder="Leave a comment here"></textarea>
             <label for="floatingTextarea2">코멘트</label>
         </div>
         <div class="mybtns">
-            <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button>
+            <button onclick="testImage('https\:\/\/dbscthumb-phinf.pstatic.net/2758_000_1/20131008180432509_98TWLQB5I.jpg/434_i1.jpg?type=m251&wm=Y')" type="button" class="btn btn-dark">체크</button>
+            <!-- <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button> -->
             <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
         </div>
     </div>
@@ -168,10 +104,10 @@
                     <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
                         class="card-img-top">
                     <div class="card-body">
-                        <h5 class="card-title">영화 제목이 들어갑니다</h5>
-                        <p class="card-text">여기에 영화에 대한 설명이 들어갑니다.</p>
+                        <h5 class="card-title">제목</h5>
+                        <p class="card-text">제목에 대한 설명</p>
                         <p>⭐⭐⭐</p>
-                        <p class="mycomment">나의 한줄 평을 씁니다</p>
+                        <p class="mycomment">코멘트</p>
                     </div>
                 </div>
             </div>
