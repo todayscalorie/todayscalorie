@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+    <title>어드민 페이지</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+    <!-- CSS 파일 import -->
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    
+    <!-- JS 파일 import -->
+    <script src="{{ url_for('static', filename='js/foodlisting.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foodposting.js') }}"></script>
+
+    <script>
+        $(document).ready(function () {
+            listing();
+        });
+
+        function open_box() {
+            $('#post-box').show()
+        }
+        function close_box() {
+            $('#post-box').hide()
+        }
+    </script>
+</head>
+
+<body>
+    <div class="mytitle">
+        <h1>어드민 페이지</h1>
+        <button onclick="open_box()">음식 기록하기</button>
+    </div>
+    <div class="mypost" id="post-box">
+        <div class="form-floating mb-3">
+            <input id="imageurl" type="imageurl" class="form-control" placeholder="name@example.com">
+            <label>음식 사진 URL</label>
+        </div>
+        <div class="form-floating">
+            <textarea id="foodname" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea">음식 이름</label>
+        </div>
+        <div class="form-floating">
+            <textarea id="calorie" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea">칼로리(kcal)</label>
+        </div>
+        <div class="form-floating">
+            <textarea id="describe" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea2">음식 설명</label>
+        </div>
+        <div class="mybtns">
+            <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button>
+            <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
+        </div>
+    </div>
+    <div class="mycards">
+        <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
+            <!-- 카드 삽입 부분 -->
+        </div>
+    </div>
+</body>
+
+</html>
