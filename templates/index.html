@@ -20,53 +20,13 @@
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
     
     <!-- JS 파일 import -->
-    <!-- <script src="{{ url_for('static', filename='js/script.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='js/foodlisting.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foodposting.js') }}"></script>
 
     <script>
         $(document).ready(function () {
             listing();
         });
-
-        function listing() {
-            fetch('/movie').then(res => res.json()).then(data => {
-                let rows = data['result']
-                $('#cards-box').empty()
-                rows.forEach((a) => {
-                    let comment = a['comment']
-                    let title = a['title']
-                    let image = a['image']
-                    let desc = a['desc']
-
-                    let temp_html = `<div class="col">
-                                            <div class="card h-100">
-                                                <img src="${image}"
-                                                     class="card-img-top">
-                                                <div class="card-body">
-                                                    <h5 class="card-title">${title}</h5>
-                                                    <p class="card-text">${desc}</p>
-                                                    <p class="mycomment">${comment}</p>
-                                                </div>
-                                            </div>
-                                        </div>`
-
-                    $('#cards-box').append(temp_html)
-                })
-            })
-        }
-
-        function posting() {
-            let url = $('#url').val()
-            let comment = $('#comment').val()
-
-            let formData = new FormData()
-            formData.append("url_give", url)
-            formData.append("comment_give", comment)
-
-            fetch('/movie', { method: "POST", body: formData }).then(res => res.json()).then(data => {
-                alert(data['msg'])
-                window.location.reload()
-            })
-        }
 
         function open_box() {
             $('#post-box').show()
@@ -79,74 +39,34 @@
 
 <body>
     <div class="mytitle">
-        <h1>test</h1>
-        <button onclick="open_box()">기록하기</button>
+        <h1>어드민 페이지</h1>
+        <button onclick="open_box()">음식 기록하기</button>
     </div>
     <div class="mypost" id="post-box">
         <div class="form-floating mb-3">
-            <input id="url" type="email" class="form-control" placeholder="name@example.com">
-            <label>URL</label>
+            <input id="imageurl" type="imageurl" class="form-control" placeholder="name@example.com">
+            <label>음식 사진 URL</label>
         </div>
         <div class="form-floating">
-            <textarea id="comment" class="form-control" placeholder="Leave a comment here"></textarea>
-            <label for="floatingTextarea2">코멘트</label>
+            <textarea id="foodname" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea">음식 이름</label>
+        </div>
+        <div class="form-floating">
+            <textarea id="calorie" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea">칼로리(kcal)</label>
+        </div>
+        <div class="form-floating">
+            <textarea id="describe" class="form-control" placeholder="Leave a comment here"></textarea>
+            <label for="floatingTextarea2">음식 설명</label>
         </div>
         <div class="mybtns">
-            <button onclick="testImage('https\:\/\/dbscthumb-phinf.pstatic.net/2758_000_1/20131008180432509_98TWLQB5I.jpg/434_i1.jpg?type=m251&wm=Y')" type="button" class="btn btn-dark">체크</button>
-            <!-- <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button> -->
+            <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button>
             <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
         </div>
     </div>
     <div class="mycards">
         <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
-                        class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">제목</h5>
-                        <p class="card-text">제목에 대한 설명</p>
-                        <p>⭐⭐⭐</p>
-                        <p class="mycomment">코멘트</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
-                        class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">영화 제목이 들어갑니다</h5>
-                        <p class="card-text">여기에 영화에 대한 설명이 들어갑니다.</p>
-                        <p>⭐⭐⭐</p>
-                        <p class="mycomment">나의 한줄 평을 씁니다</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
-                        class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">영화 제목이 들어갑니다</h5>
-                        <p class="card-text">여기에 영화에 대한 설명이 들어갑니다.</p>
-                        <p>⭐⭐⭐</p>
-                        <p class="mycomment">나의 한줄 평을 씁니다</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card h-100">
-                    <img src="https://movie-phinf.pstatic.net/20210728_221/1627440327667GyoYj_JPEG/movie_image.jpg"
-                        class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">영화 제목이 들어갑니다</h5>
-                        <p class="card-text">여기에 영화에 대한 설명이 들어갑니다.</p>
-                        <p>⭐⭐⭐</p>
-                        <p class="mycomment">나의 한줄 평을 씁니다</p>
-                    </div>
-                </div>
-            </div>
+            <!-- 카드 삽입 부분 -->
         </div>
     </div>
 </body>

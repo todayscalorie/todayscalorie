@@ -24,3 +24,6 @@ pip install bs4 requests pymongo dnspython flask
 
 # 키관리 참고 링크
 https://gomguk.tistory.com/44
+
+# 이미지 호출시 403 에러
+https://velog.io/@heelieben/403-Error-img-%ED%83%9C%EA%B7%B8-%EC%99%B8%EB%B6%80-%EC%9D%B4%EB%AF%B8%EC%A7%80-%EC%9A%94%EC%B2%AD-forbidden-%EB%90%98%EB%8A%94-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95
