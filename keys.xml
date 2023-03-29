@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="MongoDB_URL">mongodb+srv://swlah:<password>@cluster0.g93fmw7.mongodb.net/?retryWrites=true&w=majority</string>
-    <!-- <string name="secret_key">Flask+Secret+Key+Here</string> -->
-</resources>
