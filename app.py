@@ -44,13 +44,8 @@ def image_check():
     imageurl_receive = request.form['imageurl_give']
     print(imageurl_receive)
     r = requests.get(imageurl_receive)
-    
     print(r.headers['Content-Type'])
-    imegeTypeList = ['image/jpeg', 'image/gif87a', 'image/gif89a', 'image/png', 'image/bmp', 'image/tiff', 'image/icon']
-    # 중요한 역할의 조건들은 조건을 나타내는 변수로 분리하는 것이 가독성에 좋습니다!
-    isImege = r.headers['Content-Type'] in imegeTypeList
-    
-    if isImege :
+    if r.headers['Content-Type'] == 'image/jpeg' or ['Content-Type'] == 'image/gif87a' or ['Content-Type'] == 'image/gif89a' or ['Content-Type'] == 'image/png' or ['Content-Type'] == 'image/bmp' or ['Content-Type'] == 'image/tiff' or ['Content-Type'] == 'image/icon':
         return jsonify({"msg": "이미지입니다.", "status": "True"})
     else:
         return jsonify({"msg": "이미지가 아닙니다.", "status": "False"})

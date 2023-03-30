@@ -1,29 +1,17 @@
-/**
- * 함수, 변수 위로 달리는 \/***\/ 형태 주석의 장점은
- * 해당 함수를 사용할 때 어떤 함수인 지를 알 수 있다는 점이 있습니다.
- * 
- * 업데이트 시작 정보 저장
- * @param {string} uid 음식 게시물의 objectId
- */
-async function updateStart(uid) { // async는 해당 함수를 비동기로 만들어 줍니다.
-    const id = uid // 수정되지 않는 값은 const로 선언
-    
-    const formData = new FormData()
+function updateStart(uid) {
+    let id = uid
+    let formData = new FormData()
+
     formData.append("id_give", id)
-    console.log(`[ POST /admin/updatestart ] REQUEST`)
-    // await는 비동기 함수 내에서 동기로 처리되어야 하는 부분에 사용됩니다! 
-    const response = await fetch('/admin/updatestart', { method: "POST", body: formData })
-    const responseBody = await response.json()
-    // JSON.stringify -> json 타입(js의 유사 type은 Object type)을 문자열 형태로 변환합니다.)
-    console.log(`[ POST /admin/updatestart ] RESPONSE - body: ${JSON.stringify(responseBody)}`)
-    alert('업데이트 시작')
-    window.location.reload()
+
+    fetch('/admin/updatestart', { method: "POST", body: formData })
+        .then(res => res.json())
+        .then(data => {
+        alert('업데이트 시작')
+        window.location.reload()
+    })
 }
 
-/**
- * 업데이트 완료
- * @param {string} uid 음식 게시물의 objectId
- */
 function updateComplete(uid) {
     let id = uid
     let foodname = $('#' + uid).find('.card-title').text();
@@ -39,9 +27,9 @@ function updateComplete(uid) {
     fetch('/admin/updatecomplete', { method: "POST", body: formData })
         .then(res => res.json())
         .then(data => {
-            alert('업데이트 종료')
-            window.location.reload()
-        })
+        alert('업데이트 종료')
+        window.location.reload()
+    })
 }
 
 function deleteCard(uid) {
@@ -53,9 +41,9 @@ function deleteCard(uid) {
     fetch('/admin/delete', { method: "POST", body: formData })
         .then(res => res.json())
         .then(data => {
-            alert('삭제 완료!')
-            window.location.reload()
-        })
+        alert('삭제 완료!')
+        window.location.reload()
+    })
 }
 
 function listing() {
@@ -82,7 +70,7 @@ function listing() {
                 buttonText = "완료"
                 contentEditable = "true"
             }
-
+            
             let temp_html = `<div class="col">
                                 <div class="card h-100">
                                     <div id="${id}">
