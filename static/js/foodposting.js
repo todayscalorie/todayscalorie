@@ -18,7 +18,7 @@ function posting() {
                 formData.append("calorie_give", calorie)
                 formData.append("describe_give", describe)
 
-                fetch('/admin', { method: "POST", body: formData })
+                fetch('/admin/post', { method: "POST", body: formData })
                     .then(res => res.json())
                     .then(data => {
                         alert(data['msg'])
