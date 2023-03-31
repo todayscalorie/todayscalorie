@@ -32,6 +32,10 @@ def admin_post():
 
     db.foods.insert_one(doc)
 
+    data = str(db.foods.find_one(doc)['_id'])
+    db.foods.update_one(doc,{'$set':{'id': data}})
+    db.foods.update_one(doc,{'$set':{'status': 'complete'}})
+
     return jsonify({'msg': '저장완료!'})
 
 # 이미지 판별 함수
@@ -46,41 +50,35 @@ def image_check():
     else:
         return jsonify({"msg": "이미지가 아닙니다.", "status": "False"})
 
-# @app.route("/admin/update", methods=["POST"])
-# def admin_update():
-#     imageurl_receive = request.form['imageurl_give']
-#     foodname_receive = request.form['foodname_give']
-#     calorie_receive = request.form['calorie_give']
-#     describe_receive = request.form['describe_give']
+@app.route("/admin/updatestart", methods=["POST"])
+def admin_update_start():
+    id_receive = request.form['id_give']
+    db.foods.update_one({'id': id_receive},{'$set':{'status': 'in progress'}})
+    result = db.foods.find({'id' : id_receive})[0]['status']
 
-#     doc = {
-#         'imageurl': imageurl_receive,
-#         'foodname': foodname_receive,
-#         'calorie': calorie_receive,
-#         'describe': describe_receive
-#     }
+    return jsonify({'result': result})
 
-#     db.foods.insert_one(doc)
+@app.route("/admin/updatecomplete", methods=["POST"])
+def admin_update_complete():
+    id_receive = request.form['id_give']
+    foodname_receive = request.form['foodname_give']
+    calorie_receive = request.form['caloriegive']
+    describe_receive = request.form['describe_give']
 
-#     return jsonify({'msg': '저장완료!'})
+    db.foods.update_one({'id': id_receive},{'$set':{'status':'complete','foodname':foodname_receive,'calorie':calorie_receive,'describe':describe_receive}})
+    db.foods.update_one({'id': id_receive},{'$set':{'foodname':foodname_receive}})
+    db.foods.update_one({'id': id_receive},{'$set':{'calorie':calorie_receive}})
+    db.foods.update_one({'id': id_receive},{'$set':{'describe':describe_receive}})
+    result = db.foods.find({'id' : id_receive})[0]['status']
 
-# @app.route("/admin/delete", methods=["POST"])
-# def admin_delete():
-#     imageurl_receive = request.form['imageurl_give']
-#     foodname_receive = request.form['foodname_give']
-#     calorie_receive = request.form['calorie_give']
-#     describe_receive = request.form['describe_give']
+    return jsonify({'result': result})
 
-#     doc = {
-#         'imageurl': imageurl_receive,
-#         'foodname': foodname_receive,
-#         'calorie': calorie_receive,
-#         'describe': describe_receive
-#     }
+@app.route("/admin/delete", methods=["POST"])
+def admin_delete():
+    id_receive = request.form['id_give']
+    db.foods.delete_one({'id':id_receive})
 
-#     db.foods.insert_one(doc)
-
-#     return jsonify({'msg': '저장완료!'})
+    return jsonify({'msg': '삭제 완료!'})
 
 @app.route("/admin", methods=["GET"])
 def admin_get():

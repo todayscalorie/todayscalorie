@@ -12,9 +12,7 @@ function posting() {
         .then(data => {
             console.log(data)
             if (data['status'] == "True") {
-                console.log("a")
                 imagecheck = data.status
-                console.log(imagecheck)
 
                 formData.append("foodname_give", foodname)
                 formData.append("calorie_give", calorie)
@@ -30,13 +28,11 @@ function posting() {
                         console.error('Error:', error);
                     });
             } else {
-                console.log("b")
                 imagecheck = data.status
-                console.log("e")
                 alert("이미지가 아닙니다.")
             }
-    })
-    .catch(error => {
+        })
+        .catch(error => {
         console.error('Error:', error);
     });
 }
