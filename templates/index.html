@@ -1,74 +1,292 @@
-<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- CSS only -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
+    <!-- JavaScript Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
 
-    <title>어드민 페이지</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap"
+      rel="stylesheet"
+    />
 
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
-
-    <!-- CSS 파일 import -->
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">  
-
+    <title>오늘의 칼로리</title>
+    <style>
+      @font-face {
+        font-family: "NanumSquareNeo-Variable";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2")
+          format("woff2");
+        font-weight: normal;
+        font-style: normal;
+      }
+      * {
+        font-family: "NanumSquareNeo-Variable";
+      }
+    </style>
     <script>
-        $(document).ready(function () {
-            listing();
-        });
+      $(document).ready(function () {
+        show_order();
+      });
+      function show_order() {
+        fetch("/foodlists")
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            // alert(data["msg"]);
+            $("#foodData").empty();
+            let rows = data["result"];
+            rows.forEach((a) => {
+              let url = a["url"];
+              let name = a["name"];
+              let kcal = a["kcal"];
+              let like = a["like"];
 
-        function open_box() {
-            $('#post-box').show()
+              let temp_html = ` 
+               <!-- cardBox 시작 -->
+    <div class="card mb-3 col-md-2 mx-3 mt-5">
+      <h5 class="card-header">음식 카드</h5>
+      <img style="width:100%;height:200px" src="${url}"
+       class="d-block user-select-none">
+      <div class="card-body">
+        <!-- 체크박스 자리 -->
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            ${name}
+          </label>
+        </div>
+      </div>
+      <!-- 체크박스 음식이름 끝 -->
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">칼로리 : ${kcal}kcal</li>
+         <li class="list-group-item">
+          먹은 양 체크
+          <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-dark" onclick="kcaldisLike('${name}','${like}')">-</button>
+          <p id="like">먹은 양 :${like} </p>
+          <button type="button" class="btn btn-outline-dark" onclick="kcalLike('${name}')">+</button>
+          </div>
+        </li>
+      </ul>
+      <div class="card-body">
+        <button type="button" onclick="multiple('${name}','${kcal}','${like}')" class="btn btn-outline-success">
+          칼로리계산하기
+        </button>
+        <div id="multiple_${name}" class="card-body">
+          
+          </div>
+      </div>
+    </div>
+
+    <!-- cardBox 끝 -->`;
+
+              $("#foodData").append(temp_html);
+            });
+          });
+      }
+
+      function save_order() {
+        let url = $("#url").val();
+        let name = $("#name").val();
+        let kcal = $("#kcal").val();
+
+        // 공백인 경우 return
+        if (url == "") {
+          alert("url값을 입력하세요");
+          return;
+        } else if (name == "") {
+          alert("이름을 입력하세요");
+        } else if (kcal == "") {
+          alert("kcal 입력하세요");
+        } else {
+          // url,name,kcal 체크하고 정상이면 foodlists 호출
+          let formData = new FormData();
+          formData.append("url_give", url);
+          formData.append("name_give", name);
+          formData.append("kcal_give", kcal);
+
+          fetch("/foodlists", { method: "POST", body: formData })
+            .then((res) => res.json())
+            .then((data) => {
+              // console.log(data);
+              alert(data["msg"]);
+              window.location.reload();
+            });
         }
-        function close_box() {
-            $('#post-box').hide()
+      }
+      //like 버튼
+      function kcalLike(nameVal) {
+        let nameValue = nameVal;
+        let formData = new FormData();
+
+        formData.append("name_give", nameValue);
+
+        fetch("/foodlists/like", { method: "POST", body: formData })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            alert(data["msg"]);
+            window.location.reload();
+          });
+      }
+
+      //dislike 버튼
+      function kcaldisLike(nameVal, num) {
+        let number = num;
+        let nameValue = nameVal;
+        let formData = new FormData();
+
+        if (number == 0) {
+          alert("0 이하는 선택할 수 없어요!!");
+          return;
+        } else {
+          formData.append("name_give", nameValue);
+
+          fetch("/foodlists/dislike", { method: "POST", body: formData })
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data);
+              alert(data["msg"]);
+              window.location.reload();
+            });
         }
+      }
+      //multiple 버튼
+      function multiple(nameVal, kcalVal, likeVal) {
+        let nameValue = nameVal;
+        let kcalValue = kcalVal;
+        let likeValue = likeVal;
+
+        // let formData = new FormData();
+
+        // formData.append("name_give", nameValue);
+        // formData.append("kcal_give", kcalValue);
+        // formData.append("like_give", likeValue);
+
+        //   fetch("/foodlists/multiple", {method: "POST",body: formData})
+        //   .then((res) => res.json())
+        //   .then((data) => {
+        //         console.log(data);
+        //       //  alert(data['result']);
+        //       alert('계산완료')
+        //        // window.location.reload();
+        //        $('#multiple_' + nameVal).append('<p>'+ data['result'] +'</p>')
+
+        //       });
+
+        $("#multiple_" + nameVal).append(
+          "<p>" + kcalValue * likeValue + "</p>"
+        );
+      }
     </script>
-</head>
-
-<body>
-    <div class="mytitle">
-        <h1>어드민 페이지</h1>
-        <button onclick="open_box()">음식 기록하기</button>
+  </head>
+  <body>
+    <!-- header 시작 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid d-flex">
+        <div style="width: 80%">
+          <a class="navbar-brand" href="#">오늘의 칼로리</a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <div>
+            <button type="button" class="btn btn-outline-light me-3">
+              Login
+            </button>
+            <button type="button" class="btn btn-outline-dark">Sign-Up</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- header 끝 -->
+    <!-- 데이터 넣을 칸 시작 -->
+    <div class="order-info col-5 mx-auto">
+      <div class="input-group mb-3">
+        <span class="input-group-text">이미지 url 넣기</span>
+        <input id="url" type="text" class="form-control" />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">음식 이름</span>
+        <input id="name" type="text" class="form-control" />
+      </div>
+      <div class="input-group mb-3">
+        <span class="input-group-text">음식 칼로리</span>
+        <input id="kcal" type="text" class="form-control" />
+      </div>
+      <button
+        onclick="save_order()"
+        type="button"
+        class="btn btn-warning mybtn"
+      >
+        주문하기
+      </button>
     </div>
-    <div class="mypost" id="post-box">
-        <div class="form-floating mb-3">
-            <input id="imageurl" type="imageurl" class="form-control" placeholder="name@example.com">
-            <label>음식 사진 URL</label>
+
+    <!-- 데이터 넣을 칸 끝 -->
+
+    <div class="row row-cols-1 row-md-1 mx-auto g-4" id="foodData">
+      <div class="col">
+        <div class="card mb-3 col-2 mx-auto mt-5">
+          <img
+            style="width: 100%; height: 200px"
+            src="https://dbscthumb-phinf.pstatic.net/2758_000_1/20131008175502253_9O2NGOVQB.jpg/142_i1.jpg?type=m251&wm=Y"
+            class="d-block user-select-none"
+          />
+          <div class="card-body">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                음식 이름
+              </label>
+            </div>
+          </div>
+
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">칼로리 : ㅇㅇㅇkcal</li>
+            <li class="list-group-item">
+              먹은 양 체크
+              <div class="d-flex justify-content-between">
+                <button type="button" class="btn btn-outline-dark">-</button>
+                <p>${버튼 클릭 수}</p>
+                <button type="button" class="btn btn-outline-dark">+</button>
+              </div>
+            </li>
+          </ul>
+          <div class="card-body">
+            <button type="button" class="btn btn-outline-success">
+              칼로리계산하기
+            </button>
+          </div>
         </div>
-        <div class="form-floating">
-            <textarea id="foodname" class="form-control" placeholder="Leave a comment here"></textarea>
-            <label for="floatingTextarea">음식 이름</label>
-        </div>
-        <div class="form-floating">
-            <textarea id="calorie" class="form-control" placeholder="Leave a comment here"></textarea>
-            <label for="floatingTextarea">칼로리(kcal)</label>
-        </div>
-        <div class="form-floating">
-            <textarea id="describe" class="form-control" placeholder="Leave a comment here"></textarea>
-            <label for="floatingTextarea2">음식 설명</label>
-        </div>
-        <div class="mybtns">
-            <button onclick="posting()" type="button" class="btn btn-dark">기록하기</button>
-            <button onclick="close_box()" type="button" class="btn btn-outline-dark">닫기</button>
-        </div>
-    </div>
-    <div class="mycards">
-        <div class="row row-cols-1 row-cols-md-4 g-4" id="cards-box">
-            <!-- 카드 삽입 부분 -->
-        </div>
+      </div>
     </div>
 
-    <!-- JS 파일 import -->
-    <script src="{{ url_for('static', filename='js/foodlisting.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/foodposting.js') }}"></script>
-</body>
-
+    <!-- admin 로그인 버튼 -->
+    <div style="position: fixed; right: 2rem; bottom: 2rem">
+      <button type="button" class="btn btn-outline-warning">admin</button>
+    </div>
+  </body>
 </html>

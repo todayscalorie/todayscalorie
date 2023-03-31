@@ -47,7 +47,7 @@ function deleteCard(uid) {
 }
 
 function listing() {
-    fetch('/admin').then(res => res.json()).then(data => {
+    fetch('/admin/get').then(res => res.json()).then(data => {
         let rows = data['result']
         $('#cards-box').empty()
         rows.forEach((a) => {

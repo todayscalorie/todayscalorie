@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!-- JavaScript Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet" />
+
+  <title>오늘의 칼로리 - 회원가입 페이지</title>
+  <style>
+    @font-face {
+      font-family: "NanumSquareNeo-Variable";
+      src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2") format("woff2");
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    * {
+      font-family: "NanumSquareNeo-Variable";
+    }
+  </style>
+  <script>
+
+    function create_user() {
+      // alert("나는 로그인을 할거야");
+      //아이디와 비밀번호 칸에 입력된 text 문자를
+      let login_id = $('#user_id').val() //로그인하는 아이디를 받고
+      let login_pw = $('#user_pw').val() // 로그인 하는 비밀번호를 받고
+      let nickname = $('#nickname').val() // 닉네임 값을 받고
+
+      //app.py의 login 함수로 id와 pw 이름으로 보내준다.
+      let formData = new FormData();
+      formData.append("login_id", login_id);
+      formData.append("login_pw", login_pw);
+      formData.append("nickname", nickname);
+
+      fetch('/register/signup', { method: "POST", body: formData, }).then((res) => res.json()).then((data) => {
+        if (data['page']) window.location.href = `localhost:5001/${date['page']}`
+        console.log(date['result'])  // result값이 출력이 안되서 받아주는 변수 생성.
+        alert(data['result'])
+      });
+    }
+  </script>
+
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid d-flex">
+      <div style="width: 80%">
+        <a class="navbar-brand">오늘의 칼로리 - 회원가입 페이지</a>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarColor01">
+        <div>
+          <a href="/" type="button" class="btn btn-outline-dark">메인페이지</a>
+          <a href="/login" type="button" class="btn btn-outline-light me-3">로그인</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="loginArea">
+      <h1>오늘의 칼로리</h1>
+      <form>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="form-label">아이디</label>
+          <!--text로 아이디를 받습니다.-->
+          <input id="user_id" type="text" class="form-control" />
+          <div class="form-text">아이디를 입력하세요.</div>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputPassword1" class="form-label">비밀번호</label>
+          <input id="user_pw" type="password" class="form-control" />
+          <div class="form-text">비밀번호를 입력하세요.</div>
+        </div>
+        <label for="exampleInputEmail1" class="form-label">닉네임</label>
+        <input id="nickname" type="text" class="form-control" />
+        <div class="form-text">닉네임을 입력하세요.</div>
+    </div>
+
+    <div class="btn-center">
+      <button onclick="create_user()" type="submit" class="btn btn-primary">유저 등록</button>
+      <!-- <button onclick="location.href='/'" type="submit" class="btn btn-primary">로그인 창으로 이동</button> -->
+    </div>
+    </form>
+  </div>
+  </div>
+  <!-- admin 로그인 버튼 -->
+  <div style="position: fixed; right: 2rem; bottom: 2rem">
+    <a href="/admin" type="button" class="btn btn-outline-warning">admin</a>
+  </div>
+</body>
+
+</html>
