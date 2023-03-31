@@ -19,8 +19,9 @@ bs4 패키지 -> 웹크롤링 패키지
 requests 패키지 -> web에 GET, POST 요청 위해 사용
 pymongo, dnspython 패키지 -> MongoDB 사용을 위한 패키지
 flask 패키지 -> Flask 서버 개발 용도
+jwt 패키지 -> jwt 사용 용도
 
-pip install bs4 requests pymongo dnspython flask
+pip install bs4 requests pymongo dnspython flask jwt
 
 # 키관리 참고 링크
 https://gomguk.tistory.com/44

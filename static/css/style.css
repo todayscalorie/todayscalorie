@@ -1,40 +1,3 @@
-* {
-    font-family: 'Gowun Dodum', sans-serif;
-}
-
-.mytitle {
-    width: 100%;
-    height: 250px;
-
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://movie-phinf.pstatic.net/20210715_95/1626338192428gTnJl_JPEG/movie_image.jpg');
-    background-position: center;
-    background-size: cover;
-
-    color: white;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.mytitle>button {
-    width: 200px;
-    height: 50px;
-
-    background-color: transparent;
-    color: white;
-
-    border-radius: 50px;
-    border: 1px solid white;
-
-    margin-top: 10px;
-}
-
-.mytitle>button:hover {
-    border: 2px solid white;
-}
-
 .mycomment {
     color: gray;
 }
@@ -66,4 +29,16 @@
 
 .mybtns>button {
     margin-right: 10px;
+}
+
+/* 공윤님 CSS */
+@font-face {
+    font-family: "NanumSquareNeo-Variable";
+    src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2")
+      format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+* {
+    font-family: "NanumSquareNeo-Variable";
 }
