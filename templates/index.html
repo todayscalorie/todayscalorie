@@ -17,11 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
 
     <!-- CSS 파일 import -->
-    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-    
-    <!-- JS 파일 import -->
-    <script src="{{ url_for('static', filename='js/foodlisting.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/foodposting.js') }}"></script>
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">  
 
     <script>
         $(document).ready(function () {
@@ -69,6 +65,10 @@
             <!-- 카드 삽입 부분 -->
         </div>
     </div>
+
+    <!-- JS 파일 import -->
+    <script src="{{ url_for('static', filename='js/foodlisting.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/foodposting.js') }}"></script>
 </body>
 
 </html>
